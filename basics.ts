@@ -3,7 +3,7 @@ userName = 'Max';
 console.log(userName);
 
 let hobbies: string[] = ['Sports', 'Cooking'];
-hobbies.push(10); // Error: Argument of type 'number' is not assignable to parameter of type 'string'.
+//hobbies.push(10); // Error: Argument of type 'number' is not assignable to parameter of type 'string'.
 
 let users: (string | number)[] = ['Max', 30];
 users.push('Anna');
