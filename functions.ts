@@ -42,3 +42,24 @@ let userJoe: User = {
 
 user.greet("Hello");
 userJoe.greet("Hello");
+
+function Person(name: string) {
+  this.name = name;
+  
+  setTimeout(function () {
+    console.log(this.name);
+  }, 1000);
+}
+
+new Person("Andrzej"); // This will log 'undefined' because the function creates its own 'this' context, which does not have a 'name' property.
+
+
+function ArrowPerson(name: string) {
+  this.name = name;
+  
+  setTimeout(() => {
+    console.log(this.name);
+  }, 1000);
+}
+
+new ArrowPerson("Andrzej"); // This will log 'Andrzej' because the arrow function does not create its own 'this' context, so it uses the 'this' from the surrounding scope.
