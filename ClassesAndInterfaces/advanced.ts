@@ -1,6 +1,6 @@
-class User{
+class User {
     private age: number = 0;
-    constructor(private name: string, private lastName: string) {}
+    constructor(private name: string, private lastName: string) { }
     get fullName() {
         return this.name + " " + this.lastName;
     }
@@ -15,6 +15,11 @@ class User{
     greet() {
         console.log(`Hello, my name is ${this.fullName}. I am ${this.age} years old.`);
     }
+
+    static SomeIdentifier = "This is a static property";
+    static someStaticMethod() {
+        console.log("This is a static method " + User.SomeIdentifier);
+    }
 }
 
 const user = new User("John", "Doe");
@@ -23,3 +28,4 @@ console.log(user.fullName); // "John Doe"
 
 user.Age = 30;
 user.greet(); // "Hello, my name is John Doe. I am 30 years old."
+User.someStaticMethod(); // "This is a static method This is a static property"
