@@ -29,3 +29,19 @@ console.log(user.fullName); // "John Doe"
 user.Age = 30;
 user.greet(); // "Hello, my name is John Doe. I am 30 years old."
 User.someStaticMethod(); // "This is a static method This is a static property"
+
+
+class Admin extends User {
+    constructor(name: string, lastName: string, age: number) {
+        super(name, lastName);
+        super.Age = age;
+    }
+    greet() {
+        console.log(`Hello, my name is ${this.fullName}. I am an admin.`);
+    }
+    static SomeIdentifier = "This is a static property for Admin";
+}
+
+const admin = new Admin("Alice", "Smith", 35);
+admin.greet(); // "Hello, my name is Alice Smith. I am an admin."
+Admin.someStaticMethod(); // "This is a static method This is a static property"
