@@ -12,8 +12,13 @@ const dbSource: DBSource = {
 
 type Source = FileSource | DBSource;
 
+// Type guard function to check if a Source is a FileSource (returns a type predicate (boolean under the hood))
+function isFileSource(source: Source): source is FileSource {
+    return source.type === 'file';
+}
+
 function loadData(source: Source) {
-    if (source.type === 'file') {
+    if (isFileSource(source)) {
         source.path; // TypeScript knows this is a FileSource
         return;
     }
