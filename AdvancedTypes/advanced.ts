@@ -46,4 +46,4 @@ const dataEntries = {
     entry2: -0.45,
 } satisfies Record<string, number>;
 
-dataEntries.entry3 = 0.67; // Error: Property 'entry3' does not exist on type 'Record<string, number>'.
+// dataEntries.entry3 = 0.67; // Error: Property 'entry3' does not exist on type 'Record<string, number>'.

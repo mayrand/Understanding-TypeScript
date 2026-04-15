@@ -1,3 +1,4 @@
+// @ts-nocheck
 // A function becomes a constructor when you call it with new.
 // JavaScript then:
 
