@@ -24,3 +24,4 @@ type AppUser = {
 
 type Perms = AppUser["permissions"]; // Perms is now { id: string; title: string; description: string; }[]
 // idexed access types can also be used in any other type operations
+type Perm = AppUser["permissions"][number]; // Perm is now { id: string; title: string; description: string; }
