@@ -1,6 +1,6 @@
 type Operations = {
-    add: (a: number, b: number) => number;
-    subtract: (a: number, b: number) => number;
+    add?: (a: number, b: number) => number;
+    subtract?: (a: number, b: number) => number;
 };
 
 let mathOperations: Operations = {
@@ -21,11 +21,11 @@ let mathOperations: Operations = {
 // The above code is fine, but it can be easily broken if we add more operations to the Operations type. We would have to manually update the Results1 type and the mathResults1 object. This is where mapped types come in handy.
 
 type Results<T> = {
-    [K in keyof T]?: number; // This means that for each key K in the type T, we want to create a property of type number. The ? makes the property optional, so we don't have to provide a value for every operation.
+    [K in keyof T]-?: number; // Operations are optional in the Operations type, but we want them to be required in the Results type. The -? removes the optional modifier from the properties.
 };
 
 let mathResults: Results<Operations> = {
-    add: mathOperations.add(5, 2),
-    //subtract: mathOperations.subtract(5, 2) // We can choose to only provide results for some operations, and it's still valid.
+    add: mathOperations.add!(5, 2),
+    subtract: mathOperations.subtract!(5, 2) // Exclamation mark is used to assert that the properties are not undefined, since we know that they will be defined in this context.
 };
 
