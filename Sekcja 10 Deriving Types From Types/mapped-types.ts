@@ -5,7 +5,7 @@ type Operations = {
 
 let mathOperations: Operations = {
     add: (a, b) => a + b,
-    subtract: (a, b) => a - b
+    subtract: (a, b) => a - b,
 };
 
 // type Results1 = {
@@ -21,11 +21,11 @@ let mathOperations: Operations = {
 // The above code is fine, but it can be easily broken if we add more operations to the Operations type. We would have to manually update the Results1 type and the mathResults1 object. This is where mapped types come in handy.
 
 type Results<T> = {
-    [K in keyof T]: number;
+    [K in keyof T]?: number; // This means that for each key K in the type T, we want to create a property of type number. The ? makes the property optional, so we don't have to provide a value for every operation.
 };
 
 let mathResults: Results<Operations> = {
     add: mathOperations.add(5, 2),
-    subtract: mathOperations.subtract(5, 2)
+    //subtract: mathOperations.subtract(5, 2) // We can choose to only provide results for some operations, and it's still valid.
 };
 
