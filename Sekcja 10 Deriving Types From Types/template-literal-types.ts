@@ -9,3 +9,14 @@ type WritePermissions = "write" | "no-write";
 
 //type FilePermissions = 'no-read-write' | 'read-no-write' | 'read-write' | 'no-read-no-write';
 type FilePermissions = `${ReadPermissions}-${WritePermissions}`;
+
+type DataFile = {
+    name: string;
+    permissions: FilePermissions;
+}
+
+type DataFileEventNames = `${keyof DataFile}Changed`;
+
+type DataFileEvents = {
+    [K in DataFileEventNames]: (file: DataFile) => void;
+}
