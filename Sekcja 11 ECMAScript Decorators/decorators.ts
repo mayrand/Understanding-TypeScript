@@ -5,9 +5,13 @@ function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDeco
     console.log(target);
     console.log(`ctx: `);
     console.log(ctx);
-    
+
     return class extends target {
-        age = 35;
+        constructor(...args: any[]) {
+            super(...args);
+            console.log('class constructor');
+            console.log(this);
+        }
     }
 }
 
@@ -20,4 +24,4 @@ class Person{
 }
 
 const max = new Person();
-console.log(max);
+const julie = new Person();
