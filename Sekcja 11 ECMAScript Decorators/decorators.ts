@@ -1,10 +1,14 @@
 // https://github.com/typestack/class-validator - Decorator-based property validation for classes.
 
-function logger(target: any, ctx: ClassDecoratorContext){
+function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDecoratorContext){
     console.log(`target: `);
     console.log(target);
     console.log(`ctx: `);
     console.log(ctx);
+    
+    return class extends target {
+        age = 35;
+    }
 }
 
 @logger
@@ -15,12 +19,5 @@ class Person{
     }
 }
 
-// target:
-//     [class Person]
-// ctx:
-// {
-//     kind: 'class',
-//     name: 'Person',
-//     metadata: undefined,
-//     addInitializer: [Function (anonymous)]
-// }
+const max = new Person();
+console.log(max);
