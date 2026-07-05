@@ -18,12 +18,17 @@ function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDeco
 function autobind(target: (...args: any[]) => any, ctx: ClassMethodDecoratorContext){
     ctx.addInitializer(function(this: any) {
         this[ctx.name] = this[ctx.name].bind(this);
-    })
+    });
+    return function (this: any){
+        console.log('Executing orginal function');
+        //target(); again TypeError: Cannot read properties of undefined (reading 'name') because target is original method without bind this
+        target.apply(this);
+    }
 }
 
 @logger
 class Person{
-    name = 'Maxs';
+    name = 'Maxon';
 
     @autobind
     greeting() {
