@@ -1,6 +1,6 @@
 // https://github.com/typestack/class-validator - Decorator-based property validation for classes.
 
-function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDecoratorContext){
+function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDecoratorContext) {
     console.log(`target: `);
     console.log(target);
     console.log(`ctx: `);
@@ -15,34 +15,33 @@ function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDeco
     }
 }
 
-function autobind(target: (...args: any[]) => any, ctx: ClassMethodDecoratorContext){
-    ctx.addInitializer(function(this: any) {
+function autobind(target: (...args: any[]) => any, ctx: ClassMethodDecoratorContext) {
+    ctx.addInitializer(function (this: any) {
         this[ctx.name] = this[ctx.name].bind(this);
     });
-    return function (this: any){
+    return function (this: any) {
         console.log('Executing orginal function');
         //target(); again TypeError: Cannot read properties of undefined (reading 'name') because target is original method without bind this
         target.apply(this);
     }
 }
 
-// target is undefined because this decorator is initialized before field is initialized
-function fieldLogger(target: undefined, ctx: ClassFieldDecoratorContext){
-    console.log(`field target: `);
-    console.log(target);
-    console.log(`field ctx: `);
-    console.log(ctx);
-    
-    // we return a function that will be executed when field is initialized
-    return (initialValue: any) =>  {
-        console.log(`initialValue: ${initialValue}`);
-        return `initialValue${initialValue}`;
-    }
+
+function replacer<T>(replacementValue: T) {
+    return function replacerDecorator(
+        target: undefined,
+        ctx: ClassFieldDecoratorContext
+    ) {
+        return function (initialValue: T) {
+            console.log(`initialValue ${initialValue}`); // "Maxon"
+            return replacementValue;   // "Max"
+        };
+    };
 }
 
 @logger
-class Person{
-    @fieldLogger
+class Person {
+    @replacer('Max')
     name = 'Maxon';
 
     @autobind
