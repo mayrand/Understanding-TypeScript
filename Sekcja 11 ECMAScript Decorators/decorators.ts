@@ -16,19 +16,15 @@ function logger<T extends new (...args: any[]) => any>(target: T, ctx: ClassDeco
 }
 
 function autobind(target: (...args: any[]) => any, ctx: ClassMethodDecoratorContext){
-    console.log(`autobind target: `);
-    console.log(target);
-    console.log(`autobind ctx: `);
-    console.log(ctx);
+    ctx.addInitializer(function(this: any) {
+        this[ctx.name] = this[ctx.name].bind(this);
+    })
 }
 
 @logger
 class Person{
-    name = 'Max';
-    
-    constructor() {
-        this.greeting = this.greeting.bind(this); // without this on line 40 there will be TypeError: Cannot read properties of undefined (reading 'name')
-    }
+    name = 'Maxs';
+
     @autobind
     greeting() {
         console.log(`Hello, my name is ${this.name}`);
