@@ -26,6 +26,9 @@ function autobind(target: (...args: any[]) => any, ctx: ClassMethodDecoratorCont
 class Person{
     name = 'Max';
     
+    constructor() {
+        this.greeting = this.greeting.bind(this); // without this on line 40 there will be TypeError: Cannot read properties of undefined (reading 'name')
+    }
     @autobind
     greeting() {
         console.log(`Hello, my name is ${this.name}`);
@@ -33,4 +36,5 @@ class Person{
 }
 
 const max = new Person();
-const julie = new Person();
+const greet = max.greeting;
+greet(); 
