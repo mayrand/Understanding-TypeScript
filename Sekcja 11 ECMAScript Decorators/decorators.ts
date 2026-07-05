@@ -26,8 +26,23 @@ function autobind(target: (...args: any[]) => any, ctx: ClassMethodDecoratorCont
     }
 }
 
+// target is undefined because this decorator is initialized before field is initialized
+function fieldLogger(target: undefined, ctx: ClassFieldDecoratorContext){
+    console.log(`field target: `);
+    console.log(target);
+    console.log(`field ctx: `);
+    console.log(ctx);
+    
+    // we return a function that will be executed when field is initialized
+    return (initialValue: any) =>  {
+        console.log(`initialValue: ${initialValue}`);
+        return `initialValue${initialValue}`;
+    }
+}
+
 @logger
 class Person{
+    @fieldLogger
     name = 'Maxon';
 
     @autobind
