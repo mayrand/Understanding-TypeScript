@@ -31,11 +31,38 @@ class Person {
     }
 }
 
-// bottom most decorator executes first, factories in declaration direction
+function Log(target: any, propertyName: string | symbol) {
+    console.log('Property decorator');
+    console.log(target, propertyName);
+}
+
+class Product {
+    @Log
+    title: string;
+    private _price: number;
+
+    set price(val: number) {
+        if (val > 0) {
+            this._price = val;
+        } else {
+            throw new Error("Invalid price - should be positive.");
+        }
+    }
+
+    constructor(t: string, p: number) {
+        this.title = t;
+        this._price = p;
+    }
+
+    getPriceWithTax(tax: number) {
+        return this._price * (1 + tax);
+    }
+}
+
 // logger factory
 // app.ts:11 WithTemplate factory
 // app.ts:14 hook: [object HTMLDivElement]
-// app.ts:15 <div id=​"app">​…​</div>​
+// app.ts:15 div#app
 // app.ts:30 Creating person object...
 // app.ts:4 Logging...
 // app.ts:5 class Person {
@@ -45,3 +72,5 @@ class Person {
 //     }
 // }
 // app.ts:6 Logging person
+// app.ts:35 Property decorator
+// app.ts:36 {getPriceWithTax: ƒ}constructor: class ProductgetPriceWithTax: ƒ getPriceWithTax(tax)set price: ƒ price(val)[[Prototype]]: Object 'title'
