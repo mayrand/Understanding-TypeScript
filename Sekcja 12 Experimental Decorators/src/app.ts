@@ -1,9 +1,12 @@
-function Logger(target: Function) {
-    console.log('Logging...'); // decorator is executed when js reads class definition, not when class is instantiated
-    console.log(target);
+function Logger(log: string) {
+    return function (target: Function) {
+        console.log('Logging...'); // decorator is executed when js reads class definition, not when class is instantiated
+        console.log(target);
+        console.log(log);
+    }
 }
 
-@Logger
+@Logger('Logging person')
 class Person {
     name = 'Max';
 
@@ -12,5 +15,5 @@ class Person {
     }
 }
 
-// const pers = new Person();
-// console.log(pers);
+const pers = new Person();
+console.log(pers);
