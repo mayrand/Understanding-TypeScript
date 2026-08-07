@@ -1,3 +1,5 @@
+// Decorators logic starts running when class is defined not when it is instantiated.
+
 function Logger(log: string) {
     console.log('logger factory');
     return function (target: Function) {
@@ -82,6 +84,19 @@ class Product {
         return this._price * (1 + tax);
     }
 }
+
+class Printer {
+    message = 'This works!';
+
+    showMessage(){
+        console.log(this.message);
+    }
+}
+
+const p = new Printer();
+const button = document.querySelector('button')!;
+// button.addEventListener('click', p.showMessage); - it will display undefined because this from showMessage refers to target
+button.addEventListener('click', p.showMessage.bind(p));
 
 // logger factory
 // app.ts:11 WithTemplate factory
