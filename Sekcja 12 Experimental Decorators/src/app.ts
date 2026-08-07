@@ -85,18 +85,30 @@ class Product {
     }
 }
 
+function Autobind(_target: any, _methodName: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    const adjDescriptor: PropertyDescriptor = {
+        configurable: true,
+        enumerable: false,
+        get() {
+            const boundFn = originalMethod.bind(this); // this will be the method where attribute is applied to
+            return boundFn;
+        }
+    };
+    return adjDescriptor;
+}
+
 class Printer {
     message = 'This works!';
-
-    showMessage(){
+    @Autobind
+    showMessage() {
         console.log(this.message);
     }
 }
 
 const p = new Printer();
 const button = document.querySelector('button')!;
-// button.addEventListener('click', p.showMessage); - it will display undefined because this from showMessage refers to target
-button.addEventListener('click', p.showMessage.bind(p));
+button.addEventListener('click', p.showMessage); 
 
 // logger factory
 // app.ts:11 WithTemplate factory
