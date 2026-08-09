@@ -100,6 +100,7 @@ function Autobind(_target: any, _methodName: string, descriptor: PropertyDescrip
 
 class Printer {
     message = 'This works!';
+
     @Autobind
     showMessage() {
         console.log(this.message);
@@ -108,7 +109,72 @@ class Printer {
 
 const p = new Printer();
 const button = document.querySelector('button')!;
-button.addEventListener('click', p.showMessage); 
+button.addEventListener('click', p.showMessage);
+
+interface ValidatorConfig {
+    [property: string]: {
+        [validatableProp: string]: string[] // ['required', 'minLength']
+    }
+}
+
+const registeredValidators: ValidatorConfig = {}
+
+function Required(target: any, propName: string) {
+    registeredValidators[target.constructor.name] = {
+        ...registeredValidators[target.constructor.name],
+        [propName]: ['required']
+    }
+}
+
+function PositiveNumber(target: any, propName: string) {
+    registeredValidators[target.constructor.name] = {
+        ...registeredValidators[target.constructor.name],
+        [propName]: ['positive']
+    }
+}
+
+function validate(obj: any) {
+    const validators = registeredValidators[obj.constructor.name];
+    if (!validators) return true;
+    let isValid = true;
+    for (const prop in validators) {
+        for (const validator of validators[prop]) {
+            switch (validator) {
+                case 'required':
+                    isValid = isValid && !!obj[prop];
+                    break;
+                case 'positive':
+                    isValid = isValid && obj[prop] > 0;
+                    break;
+            }
+        }
+    }
+    return isValid;
+}
+
+class Course {
+    @Required
+    title: string;
+    @PositiveNumber
+    price: number;
+
+    constructor(t: string, p: number) {
+        this.title = t;
+        this.price = p;
+    }
+}
+
+const courseForm = document.querySelector('form')!;
+courseForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const titleEl = document.getElementById('title') as HTMLInputElement;
+    const priceEl = document.getElementById('price') as HTMLInputElement;
+    const title = titleEl.value;
+    const price = +priceEl.value;
+    const course = new Course(title, price);
+    if (validate(course))
+        console.log(course);
+});
 
 // logger factory
 // app.ts:11 WithTemplate factory
