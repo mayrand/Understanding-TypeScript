@@ -20,9 +20,11 @@ export class ProjectState extends State<Project> {
 
   static getInstance() {
     if (this.instance) {
+      console.log("get old Instance"); // this will not run
       return this.instance;
     }
     this.instance = new ProjectState();
+    console.log("get new Instance"); // this will run only once
     return this.instance;
   }
 
