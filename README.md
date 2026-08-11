@@ -8,3 +8,7 @@ install --save-dev @types/node// typy dla użycia node, trzeba instalować dla
 każdej zewnętrznej biblioteki cała lista:
 https://github.com/DefinitelyTyped/DefinitelyTyped, save-dev powoduje że nie
 wypluwa do outputu przy publikacji
+
+
+Webpack install:
+npm install --save-dev webpack webpack-cli webpack-dev-server typescript ts-loader
