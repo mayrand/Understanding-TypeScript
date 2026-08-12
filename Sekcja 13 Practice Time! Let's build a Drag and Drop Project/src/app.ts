@@ -1,3 +1,32 @@
+interface Validatable {
+    value: string | number;
+    required?: boolean;
+    minLength?: number;
+    maxLength?: number;
+    min?: number;
+    max?: number;
+}
+
+function validate(validatableInput: Validatable) {
+    let isValid = true;
+    if (validatableInput.required) {
+        isValid = isValid && validatableInput.value.toString().trim().length !== 0;
+    }
+    if (validatableInput.minLength != null && typeof validatableInput.value === 'string') { //  !=null is needed to enter if when minLenght = 0
+        isValid = isValid && validatableInput.value.length >= validatableInput.minLength;
+    }
+    if (validatableInput.maxLength && typeof validatableInput.value === 'string') {
+        isValid = isValid && validatableInput.value.length <= validatableInput.maxLength;
+    }
+    if (validatableInput.min != null && typeof validatableInput.value === 'number') {
+        isValid = isValid && validatableInput.value >= validatableInput.min;
+    }
+    if (validatableInput.max && typeof validatableInput.value === 'number') {
+        isValid = isValid && validatableInput.value <= validatableInput.max;
+    }
+    return isValid;
+}
+
 function autobind(_target: any, _methodName: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
     const adjDescriptor: PropertyDescriptor = {
@@ -37,12 +66,28 @@ class ProjectInput {
     private gatherUserInput(): [string, string, number] | void {
         const enteredTitle = this.titleInputElement.value;
         const enteredDescription = this.descriptionInputElement.value;
-        const enteredPeople = this.peopleInputElement.value;
+        const enteredPeople = +this.peopleInputElement.value;
 
-        if (enteredTitle.trim().length === 0 || enteredDescription.trim().length === 0 || enteredPeople.trim().length === 0) {
-            alert('invalid input please try again');
+        const titleValidatable: Validatable = {
+            value: enteredTitle,
+            required: true
+        }
+        const descriptionValidatable: Validatable = {
+            value: enteredDescription,
+            required: true,
+            minLength: 5
+        }
+        const peopleValidatable: Validatable = {
+            value: enteredPeople,
+            required: true,
+            min: 1,
+            max: 5
+        }
+
+        if (validate(titleValidatable) && validate(descriptionValidatable) && validate(peopleValidatable)) {
+            return [enteredTitle, enteredDescription, enteredPeople];
         } else {
-            return [enteredTitle, enteredDescription, +enteredPeople]
+            alert('invalid input please try again');
         }
     }
 
