@@ -1,10 +1,10 @@
 enum ProjectStatus { Active, Finished }
 
 class Project {
-    constructor(public id: string, 
-        public title: string, 
-        public description: string, 
-        public people: number, 
+    constructor(public id: string,
+        public title: string,
+        public description: string,
+        public people: number,
         public status: ProjectStatus) { //https://www.typescriptlang.org/docs/handbook/2/classes.html#parameter-properties
 
     }
@@ -103,7 +103,14 @@ class ProjectList {
         this.element = importedNode.firstElementChild as HTMLElement;
         this.element.id = `${this.type}-projects`;
         projectState.addListeners((projects: Project[]) => {
-            this.assignedProjects = projects;
+            const relevantProject = projects.filter(prj => {
+                if (this.type === 'active')
+                    return prj.status === ProjectStatus.Active;
+                else
+                    return prj.status === ProjectStatus.Finished;
+            })
+
+            this.assignedProjects = relevantProject;
             this.renderProjects();
         });
         this.attach();
@@ -111,7 +118,8 @@ class ProjectList {
     }
 
     private renderProjects() {
-        const listEl = document.getElementById(`${this.type}-projects-list`);
+        const listEl = document.getElementById(`${this.type}-projects-list`)! as HTMLUListElement;
+        listEl.innerHTML = '';
         for (const prjItem of this.assignedProjects) {
             const listItem = document.createElement('li');
             listItem.textContent = prjItem.title;
