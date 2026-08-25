@@ -128,13 +128,31 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
     abstract renderContent(): void;
 }
 
-class ProjectList extends Component<HTMLDivElement, HTMLElement> {
+class ProjectList extends Component<HTMLDivElement, HTMLElement> implements DragTarget {
     assignedProjects: Project[] = [];
 
     constructor(private type: 'active' | 'finished') {
         super('project-list', 'app', false, `${type}-projects`);
         this.configure();
         this.renderContent();
+    }
+
+    @autobind
+    dragOverHandler(event: DragEvent): void {
+        const listEl = this.element.querySelector('ul')!;
+        listEl.classList.add('droppable');
+        console.log(event);
+    }
+    
+    dropHandler(event: DragEvent): void {
+        console.log(event);
+    }
+
+    @autobind
+    dragLeaveHandler(event: DragEvent): void {
+        const listEl = this.element.querySelector('ul')!;
+        listEl.classList.remove('droppable');
+        console.log(event);
     }
 
     renderContent() {
@@ -145,6 +163,10 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
     }
 
     configure(): void {
+        this.element.addEventListener('dragover', this.dragOverHandler);
+        this.element.addEventListener('dragleave', this.dragLeaveHandler);
+        this.element.addEventListener('drop', this.dropHandler);
+
         projectState.addListeners((projects: Project[]) => {
             const relevantProject = projects.filter(prj => {
                 if (this.type === 'active')
@@ -236,7 +258,7 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
 }
 
 
-class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements Draggable{
+class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements Draggable {
     private project: Project;
 
     get persons() {
@@ -254,17 +276,17 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
 
     @autobind
     dragStartHandler(event: DragEvent): void {
-         console.log(event);
+        console.log(event);
     }
 
     dragEndHandler(event: DragEvent): void {
-        console.log('dragend')
+        console.log(event);
     }
 
     configure(): void {
         this.element.addEventListener('dragstart', this.dragStartHandler);
         this.element.addEventListener('dragend', this.dragStartHandler);
-}
+    }
     renderContent(): void {
         this.element.querySelector('h2')!.textContent = this.project.title;
         this.element.querySelector('h3')!.textContent = this.persons + ' assigned';
