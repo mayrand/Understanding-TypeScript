@@ -1,5 +1,6 @@
-import _ from 'lodash';
+import fs from 'node:fs';
+import { z } from 'zod';
 
-const numbers = [1, 2, 3, 4, 5];
-const chunk = _.chunk(numbers, 2);
-console.log(chunk);
+const dataSchema = z.string();
+const content = fs.readFileSync('data.json');
+const parsedData = dataSchema.parse(content);
