@@ -1,0 +1,23 @@
+{
+  "name": "understanding-typescript",
+  "version": "1.0.0",
+  "description": "Understanding TypeScript Course Setup",
+  "main": "app.js",
+  "scripts": {
+    "start": "webpack serve --open"
+  },
+  "keywords": [
+    "typescript",
+    "course"
+  ],
+  "author": "Maximilian Schwarzmüller",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^14.18.63",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.5",
+    "webpack": "^5.110.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.2"
+  }
+}
