@@ -1,3 +1,5 @@
+// import type { FC } from "react";
+
 type Goal = {
     id: number;
     title: string;
@@ -7,6 +9,8 @@ interface CourseGoalsProps {
     goals: Goal[]
 }
 export default function CourseGoals({ goals }: CourseGoalsProps) {
+// old declaring component type way in comment
+// const CourseGoals: FC<CourseGoalsProps> = ({ goals }) => {
     return <ul>
         {goals.map(goal => <li key={goal.id}>
             <article>
@@ -19,3 +23,5 @@ export default function CourseGoals({ goals }: CourseGoalsProps) {
         </li>)}
     </ul>
 }
+
+// export default CourseGoals;
