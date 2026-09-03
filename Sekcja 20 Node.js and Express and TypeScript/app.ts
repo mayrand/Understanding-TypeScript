@@ -1,5 +1,6 @@
+// type annotations to help node run ts file and omit them
 import express, { type NextFunction, type Request, type Response } from 'express';
-import todoRoutes from './routes/todo.js'
+import todoRoutes from './routes/todo.ts'
 const app = express();
 
 // Returns middleware that only parses json and only looks at requests where the Content-Type header matches the type option.
