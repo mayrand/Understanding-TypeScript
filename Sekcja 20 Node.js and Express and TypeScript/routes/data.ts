@@ -5,8 +5,8 @@ interface Todo {
 let TODOS: Todo[] = [];
 
 export function addTodo(text: string) {
-    const newTodo = { id: Math.random(), text };
-    TODOS.push();
+    const newTodo = { id: TODOS.length, text };
+    TODOS.push(newTodo);
     return newTodo;
 }
 
@@ -22,7 +22,7 @@ export function getTodos() {
 }
 
 export function removeTodo(id: number) {
-    TODOS = TODOS.filter(t => t.id === id);
+    TODOS = TODOS.filter(t => t.id !== id);
 }
 
 export function updateTodo(id: number, text: string) {
