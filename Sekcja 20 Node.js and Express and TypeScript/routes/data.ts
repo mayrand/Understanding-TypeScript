@@ -4,6 +4,12 @@ interface Todo {
 }
 let TODOS: Todo[] = [];
 
+// This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+// enum TODO_TYPE {
+//     BASIC,
+//     URGENT
+// }
+
 export function addTodo(text: string) {
     const newTodo = { id: TODOS.length, text };
     TODOS.push(newTodo);
